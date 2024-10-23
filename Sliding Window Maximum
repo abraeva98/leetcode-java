@@ -1,0 +1,37 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        Deque<Integer> dq = new ArrayDeque<>();
+        int[] res = new int[nums.length - k + 1];
+
+        for(int i = 0; i < k; i ++) {
+            if(dq.size() == 0) {
+                dq.add(i);
+            } else {
+                while(dq.size() > 0 && nums[dq.peekLast()] <= nums[i]) {
+                    dq.pollLast();
+                }
+                dq.offerLast(i);
+            }
+        }
+        res[0] = nums[dq.peekFirst()];
+
+        for(int j = k; j < nums.length; j ++) {
+            int removeIdx = j - k;
+            int maxValueIdx = dq.peekFirst();
+            if(removeIdx == maxValueIdx) {
+                dq.pollFirst();
+            }
+            
+            while(dq.size() > 0 && nums[dq.peekLast()] <= nums[j]) {
+                dq.pollLast();
+            }
+            dq.offerLast(j);
+            res[removeIdx + 1] = nums[dq.getFirst()];
+        }
+
+        return res;
+    }
+}
