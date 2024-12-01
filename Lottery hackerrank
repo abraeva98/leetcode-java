@@ -1,0 +1,34 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class Lottery {
+    public static int getMaxToS(int n) {
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+
+        for(int i = 1; i <= n; i ++) {
+            int sum = i;
+            if(i >= 10) {
+                sum = i / 10 + i % 10;
+            }
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        System.out.println(map);
+        int maxVal = Integer.MIN_VALUE;
+
+        for(Map.Entry<Integer, Integer> entry: map.entrySet()) {
+            maxVal = Math.max(maxVal, entry.getValue());
+        }
+
+        int res = 0;
+        for(Map.Entry<Integer, Integer> entry: map.entrySet()) {
+            if(entry.getValue() == maxVal) {
+                res += 1;
+            }
+        }
+        return res;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(Lottery.getMaxToS(3));
+    }
+}
