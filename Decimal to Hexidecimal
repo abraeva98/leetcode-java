@@ -1,0 +1,67 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+
+class Result {
+
+    /*
+     * Complete the 'solution' function below.
+     *
+     * The function is expected to return a STRING.
+     * The function accepts STRING S as parameter.
+     */
+
+    public static String solution(String S) {
+    // Write your code here
+        String[] res = toHex(Integer.parseInt(S)).split("");
+        for(int i = 0; i < res.length; i ++) {
+            if(res[i].equals("1")) {
+                res[i] = "I";
+            } else if(res[i].equals("0")) {
+                res[i] = "O";
+            } else {
+                return "ERROR";
+            }
+        }
+        return String.join("", res);
+    }
+    public static String toHex(int decimal) {
+        if (decimal == 0) return "0"; // Special case for 0
+
+        StringBuilder hex = new StringBuilder();
+        char[] hexChars = "0123456789ABCDEF".toCharArray(); // Hexadecimal digits
+
+        while (decimal > 0) {
+            int remainder = decimal % 16;
+            hex.append(hexChars[remainder]); // Append the corresponding hex character
+            decimal /= 16; // Reduce the number by dividing by 16
+        }
+
+        return hex.reverse().toString(); // Reverse the result to get the correct order
+    }
+}
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String S = bufferedReader.readLine();
+
+        String result = Result.solution(S);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
