@@ -1,0 +1,51 @@
+class Solution {
+    public int[] sortArray(int[] nums) {
+        int[] res = partition(nums, 0, nums.length - 1);
+        return res;
+    }
+
+    public int[] partition(int[] nums, int start, int end) {
+        int[] merged = new int[1];
+        if(start < end) {
+            int mid = (start + end) / 2;
+            int[] left = partition(nums, start, mid);
+            int[] right = partition(nums, mid + 1, end);
+            merged = merge(left, right);
+        } else if (start == end) {
+            merged[0] = nums[start];
+        }
+        return merged;
+    }
+
+    public int[] merge(int[] nums1, int[] nums2) {
+
+        int[] res = new int[nums1.length + nums2.length];
+        int j = 0;
+        int i = 0;
+        int idx = 0;
+
+        while(idx < nums1.length + nums2.length) {
+            if(j < nums1.length) {
+                if(i >= nums2.length) {
+                    res[idx] = nums1[j];
+                    j ++;
+                } else {
+                    if(nums1[j] < nums2[i]) {
+                        res[idx] = nums1[j];
+                        j ++;
+                    } else {
+                        res[idx] = nums2[i];
+                        i ++;
+                    }
+                }
+            } else if(i < nums2.length) {
+                res[idx] = nums2[i];
+                i ++;
+            }
+
+            idx ++;
+        }
+
+        return res;
+    }
+}
